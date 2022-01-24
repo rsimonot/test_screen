@@ -1,14 +1,15 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <title>Screen test</title>
         <style>
             body {
                 width: 100%;
                 height: 100%;
                 position: relative;
-                background-color: rgba(51, 207, 255, 0.521);
-                font-size: 24px;
+                background-color: goldenrod;
+                font-size: 40px;
             }
             .center {
                 width: 100%;
@@ -18,25 +19,28 @@
                 top: 30%;
                 left: 50%;
                 transform: translate(-50%, -50%);
-                color: white;
                 font-family: "Trebuchet MS", Helvetica, sans-serif;
                 text-align: center;
             }
             p {
-                font-size: 100px;
+                font-size: 60px;
             }
         </style>
     </head>
     
     <body>
-        <script type="text/javascript">
-            const cpp = require('node_cpp_test');
-            document.getElementById("btn").onclick = cpp.ledblink();
+        <script>
+            $('#btn').click( () => {
+                console.log("Button clicked");
+                $.ajax( {
+                    type: 'POST',
+                    url: 'blink',
+                    success: () => alert("BLINK")
+                } );
+            });
         </script>
-
         <div class="center">
             <p>Testing from the screen</p>
-            <br>
             <button id="btn">Blink LED</button>
         </div>
     </body>
