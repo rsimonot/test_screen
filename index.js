@@ -17,10 +17,7 @@ app.listen(port, () => {
     console.log('Server started at http://localhost:' + port);
 });
 
-io.on('connection', (client) => {
-    console.log('Server received click');
-    client.on('join', (data) => {
-        console.log(data);
-        cpp.ledblink();
-    });
+app.post('/blink', (res, req) => {
+    cpp.ledblink();
+    res.send("Server treated on button click");
 });
