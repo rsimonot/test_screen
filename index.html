@@ -36,10 +36,8 @@
             <script>
                 $('button').click( () => {
                     console.log("Button clicked");
-                    $.post('/blink', {data: 'test : sending button click to NodeJS server'}, (data) => {
-                        console.log(data);
-                    });
-                }, 'json');
+                    $.post('/blink');
+                });
             </script>
         </div>
     </body>

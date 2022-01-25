@@ -1,4 +1,4 @@
-//const cpp = require('node_cpp_test');
+const cpp = require('node_cpp_test');
 const express = require('express');
 const path = require('path');
 
@@ -17,7 +17,6 @@ app.listen(port, () => {
     console.log('Server started at http://localhost:' + port);
 });
 
-app.post('/blink', (res, req) => {
+app.post('/blink', () => {
     cpp.ledblink();
-    res.send("Server treated on button click");
 });
