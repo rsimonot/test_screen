@@ -1,47 +1,26 @@
 //const cpp = require('node_cpp_test');
 const express = require('express');
 const path = require('path');
-/*const http = require('http');
-const fs = require('fs').promises;
-
-const host = 'localhost';
-const port = 8000;
-
-let indexFile;
-
-const requestListener = function(req, res) {
-    res.setHeader("Content-Type", "text/html");
-    res.writeHead(200);
-    res.end(indexFile);
-};
-
-const server = http.createServer(requestListener);
-fs.readFile(__dirname + "/index.html")
-    .then(contents => {
-        indexFile = contents;
-        server.listen(port, host, () => {
-            console.log(`Server is running on http://${host}:${port}`);
-        });
-    })
-    .catch(err => {
-        console.error(`Could not read index.html file: ${err}`);
-        process.exit(1);
-    });
-
-*/
 
 const app = express();
+const server = require('http').createServer(app);
+const io = require('socket.io')(server);
+
 const port = process.env.PORT || 8000;
 
+app.use(express.static('public'));
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, '/index.html'));
   });
 
+app.listen(port, () => {
+    console.log('Server started at http://localhost:' + port);
+});
 
-app.post('/blink', (req, res) => {
-    console.log("BLINK");
-    cpp.ledblink();
-})
-
-app.listen(port);
-console.log('Server started at http://localhost:' + port);
+io.on('connection', (client) => {
+    console.log('Server received click');
+    client.on('join', (data) => {
+        console.log(data);
+        cpp.ledblink();
+    });
+});

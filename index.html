@@ -2,6 +2,7 @@
 <html>
     <head>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="/socket.io/socket.io.js"></script>
         <title>Screen test</title>
         <style>
             body {
@@ -29,19 +30,19 @@
     </head>
     
     <body>
-        <script>
-            $('#btn').click( () => {
-                console.log("Button clicked");
-                $.ajax( {
-                    type: 'POST',
-                    url: 'blink',
-                    success: () => alert("BLINK")
-                } );
-            });
-        </script>
         <div class="center">
             <p>Testing from the screen</p>
-            <button id="btn">Blink LED</button>
+            <button>Blink LED</button>
+            <!-- Send button click notification to Node server via Ajax -->
+            <script>
+                $('button').click( () => {
+                    console.log("Button clicked");
+                    var socket = io.connect('http://localhost:8000');
+                    socket.on('connect', (data) => {
+                        socket.emit('join', 'BLINK LED');
+                    });
+                });
+            </script>
         </div>
     </body>
 </html>
